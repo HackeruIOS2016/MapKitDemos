@@ -20,17 +20,20 @@ class ViewController: UIViewController{
         guard let location = locationManager.location else {return}
         
         if motion == .MotionShake{
-            let annotation = PizaaAnnotiation(coordinate: location.coordinate, title: "Pizaa Gutte", subtitle: "Yammi Pizza")
+            //            let annotation = PizaaAnnotiation(coordinate: location.coordinate, title: "Pizaa Gutte", subtitle: "Yammi Pizza")
+            //
+            //            mapView.addAnnotation(annotation)
+            //
+            //            geoCoder.reverseGeocodeLocation(location, completionHandler: { (places, error) -> Void in
+            //                if let place = places?.first{
+            //                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            //                        print(place.addressDictionary)
+            //                    })
+            //                }
+            //            })
             
-            mapView.addAnnotation(annotation)
             
-            geoCoder.reverseGeocodeLocation(location, completionHandler: { (places, error) -> Void in
-                if let place = places?.first{
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        print(place.addressDictionary)
-                    })
-                }
-            })
+            printMapDirections("השלום תל-אביב")
         }
     }
     
@@ -73,7 +76,7 @@ class ViewController: UIViewController{
 extension ViewController : CLLocationManagerDelegate{
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(locations)
+        //print(locations)
         
         let coords = locations[0].coordinate
         
@@ -98,13 +101,67 @@ extension ViewController : CLLocationManagerDelegate{
         
     }
     
+    func openMapDirections(query:String){
+        //1) get the coordinates from the geocoder
+        geoCoder.geocodeAddressString(query) { (places, error) -> Void in
+            
+            let dest = MKPlacemark(placemark: places!.first!)
+            let destMapItem = MKMapItem(placemark: dest)
+            
+            //2) open the maps app to get directions
+            MKMapItem.openMapsWithItems([destMapItem], launchOptions: nil)
+        }
+    }
+    
+    
+    
+    func printMapDirections(query:String){
+        //1) get the coordinates from the geocoder
+        geoCoder.geocodeAddressString(query) { (places, error) -> Void in
+            //dest map item:
+            let dest = MKPlacemark(placemark: places!.first!)
+            let destMapItem = MKMapItem(placemark: dest)
+            
+            //start map item:
+            let startItem = MKMapItem.mapItemForCurrentLocation()
+            
+            //request
+            let request = MKDirectionsRequest()
+            request.source = startItem
+            request.destination = destMapItem
+            request.transportType = .Automobile
+            
+            request.requestsAlternateRoutes = false
+            
+            //use the request to get instructions
+            let directions = MKDirections(request: request)
+            directions.calculateDirectionsWithCompletionHandler({ (response, error) -> Void in
+                let route = response!.routes[0]
+                for step in route.steps{
+                    print(step.instructions)
+                }
+            })
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print(error)
+        //print(error)
     }
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedAlways{
-            print("Yay")
+            //print("Yay")
         }
         else if status == .Denied || status == .NotDetermined{
             print("No permissions yet")
@@ -145,7 +202,7 @@ extension ViewController: MKMapViewDelegate{
     }
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        print("Tapped")
+        //print("Tapped")
         let url = NSURL(string: "https://github.com/HackeruIOS2016/MapKitDemos")!
         if UIApplication.sharedApplication().canOpenURL(url){
             UIApplication.sharedApplication().openURL(url)
