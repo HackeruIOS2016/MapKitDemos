@@ -54,6 +54,8 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLocationManager()
+        
+        addPolyLineOverlay()
     }
     
     func setupLocationManager(){
@@ -137,9 +139,17 @@ extension ViewController : CLLocationManagerDelegate{
             let directions = MKDirections(request: request)
             directions.calculateDirectionsWithCompletionHandler({ (response, error) -> Void in
                 let route = response!.routes[0]
+                
                 for step in route.steps{
                     print(step.instructions)
+                    
                 }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    let poly = route.polyline
+                    poly.title = "Wooo"
+                    self.mapView.addOverlay(poly)
+                })
+                
             })
         }
     }
@@ -153,7 +163,22 @@ extension ViewController : CLLocationManagerDelegate{
     
     
     
-    
+    func addPolyLineOverlay(){
+        var points = [CLLocationCoordinate2D]()
+        
+        //32.0846632,34.7987813
+        //32.084390, 34.799924
+        //32.084031, 34.799793
+        
+        points.append(CLLocationCoordinate2D(latitude: 32.0846632, longitude: 34.7987813))
+        points.append(CLLocationCoordinate2D(latitude: 32.084390, longitude: 34.799924))
+        points.append(CLLocationCoordinate2D(latitude: 32.084031, longitude: 34.799793))
+        
+        let polyLine = MKPolyline(coordinates: &points , count: 3)
+        polyLine.title = "Way"
+        mapView.addOverlay(polyLine)
+        
+    }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         //print(error)
@@ -167,9 +192,22 @@ extension ViewController : CLLocationManagerDelegate{
             print("No permissions yet")
         }
     }
+    
+    
 }
 
 extension ViewController: MKMapViewDelegate{
+    
+    
+    
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        let polyRender = MKPolylineRenderer(overlay: overlay)
+        polyRender.strokeColor = UIColor.orangeColor()
+        polyRender.lineWidth = 5.0
+        return polyRender
+        
+    }
+    
     func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
         //
     }
