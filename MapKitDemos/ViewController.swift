@@ -10,22 +10,31 @@ import UIKit
 import MapKit
 
 class ViewController: UIViewController{
-
+    
     @IBOutlet weak var mapView: MKMapView!
     var locationManager = CLLocationManager()
-    
+    var geoCoder = CLGeocoder()
     
     
     override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent?) {
+        guard let location = locationManager.location else {return}
+        
         if motion == .MotionShake{
-             let annotation = PizaaAnnotiation(coordinate: locationManager.location!.coordinate, title: "Pizaa Gutte", subtitle: "Yammi Pizza")
+            let annotation = PizaaAnnotiation(coordinate: location.coordinate, title: "Pizaa Gutte", subtitle: "Yammi Pizza")
             
             mapView.addAnnotation(annotation)
             
+            geoCoder.reverseGeocodeLocation(location, completionHandler: { (places, error) -> Void in
+                if let place = places?.first{
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        print(place.addressDictionary)
+                    })
+                }
+            })
         }
     }
-
-
+    
+    
     @IBAction func mapTypeChanged(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex{
         case 0:
@@ -38,7 +47,7 @@ class ViewController: UIViewController{
             break
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLocationManager()
@@ -46,8 +55,8 @@ class ViewController: UIViewController{
     
     func setupLocationManager(){
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.distanceFilter = 10.0
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = 50.0
         locationManager.requestAlwaysAuthorization()
         
         //one time location request
@@ -71,6 +80,22 @@ extension ViewController : CLLocationManagerDelegate{
         let region = MKCoordinateRegionMakeWithDistance(coords, 100, 100)
         
         mapView.setRegion(region, animated: true)
+        
+        
+        
+        geoCoder.reverseGeocodeLocation(locations[0]) { (places, error) -> Void in
+            if let place = places?.first{
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    if let add = place.addressDictionary?["Name"] as? String{
+                        let annotation = PizaaAnnotiation(coordinate: coords, title: "Yammi", subtitle: add)
+                        self.mapView.addAnnotation(annotation)
+                    }
+                    
+                })
+            }
+        }
+        
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
@@ -103,4 +128,28 @@ extension ViewController: MKMapViewDelegate{
     func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
         //
     }
+    
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation.isKindOfClass(PizaaAnnotiation){
+            let annotationView = MKAnnotationView()
+            annotationView.annotation = annotation
+            // annotationView.pinTintColor = UIColor.purpleColor()
+            annotationView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            
+            annotationView.image = UIImage(named: "piz")
+            annotationView.canShowCallout = true
+            return annotationView
+        }
+        return nil
+    }
+    
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        print("Tapped")
+        let url = NSURL(string: "https://github.com/HackeruIOS2016/MapKitDemos")!
+        if UIApplication.sharedApplication().canOpenURL(url){
+            UIApplication.sharedApplication().openURL(url)
+        }
+    }
+    
 }
