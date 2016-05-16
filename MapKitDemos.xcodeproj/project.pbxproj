@@ -14,6 +14,7 @@
 		6D6953651CE99B550007970C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D6953631CE99B550007970C /* LaunchScreen.storyboard */; };
 		6D69536D1CE99C7D0007970C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D69536C1CE99C7D0007970C /* MapKit.framework */; };
 		6D6953721CE9BE1D0007970C /* HackeruRun.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6D6953711CE9BE1D0007970C /* HackeruRun.gpx */; };
+		6D6953741CE9C2610007970C /* PizaaAnnotiation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6953731CE9C2610007970C /* PizaaAnnotiation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		6D69536C1CE99C7D0007970C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6D6953701CE9BD2A0007970C /* HackeruRun.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HackeruRun.gpx; sourceTree = "<group>"; };
 		6D6953711CE9BE1D0007970C /* HackeruRun.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = HackeruRun.gpx; path = MapKitDemos/HackeruRun.gpx; sourceTree = "<group>"; };
+		6D6953731CE9C2610007970C /* PizaaAnnotiation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PizaaAnnotiation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				6D6953631CE99B550007970C /* LaunchScreen.storyboard */,
 				6D6953661CE99B550007970C /* Info.plist */,
 				6D6953701CE9BD2A0007970C /* HackeruRun.gpx */,
+				6D6953731CE9C2610007970C /* PizaaAnnotiation.swift */,
 			);
 			path = MapKitDemos;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			files = (
 				6D69535D1CE99B550007970C /* ViewController.swift in Sources */,
 				6D69535B1CE99B550007970C /* AppDelegate.swift in Sources */,
+				6D6953741CE9C2610007970C /* PizaaAnnotiation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

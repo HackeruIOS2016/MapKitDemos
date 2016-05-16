@@ -18,7 +18,10 @@ class ViewController: UIViewController{
     
     override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent?) {
         if motion == .MotionShake{
-            print("Shaked")
+             let annotation = PizaaAnnotiation(coordinate: locationManager.location!.coordinate, title: "Pizaa Gutte", subtitle: "Yammi Pizza")
+            
+            mapView.addAnnotation(annotation)
+            
         }
     }
 
