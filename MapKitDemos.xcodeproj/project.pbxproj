@@ -13,6 +13,7 @@
 		6D6953621CE99B550007970C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D6953611CE99B550007970C /* Assets.xcassets */; };
 		6D6953651CE99B550007970C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D6953631CE99B550007970C /* LaunchScreen.storyboard */; };
 		6D69536D1CE99C7D0007970C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D69536C1CE99C7D0007970C /* MapKit.framework */; };
+		6D6953721CE9BE1D0007970C /* HackeruRun.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6D6953711CE9BE1D0007970C /* HackeruRun.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,8 @@
 		6D6953641CE99B550007970C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6D6953661CE99B550007970C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6D69536C1CE99C7D0007970C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6D6953701CE9BD2A0007970C /* HackeruRun.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HackeruRun.gpx; sourceTree = "<group>"; };
+		6D6953711CE9BE1D0007970C /* HackeruRun.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = HackeruRun.gpx; path = MapKitDemos/HackeruRun.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +44,7 @@
 		6D69534E1CE99B550007970C = {
 			isa = PBXGroup;
 			children = (
+				6D6953711CE9BE1D0007970C /* HackeruRun.gpx */,
 				6D69536C1CE99C7D0007970C /* MapKit.framework */,
 				6D6953591CE99B550007970C /* MapKitDemos */,
 				6D6953581CE99B550007970C /* Products */,
@@ -64,6 +68,7 @@
 				6D6953611CE99B550007970C /* Assets.xcassets */,
 				6D6953631CE99B550007970C /* LaunchScreen.storyboard */,
 				6D6953661CE99B550007970C /* Info.plist */,
+				6D6953701CE9BD2A0007970C /* HackeruRun.gpx */,
 			);
 			path = MapKitDemos;
 			sourceTree = "<group>";
@@ -134,6 +139,7 @@
 				6D6953651CE99B550007970C /* LaunchScreen.storyboard in Resources */,
 				6D6953621CE99B550007970C /* Assets.xcassets in Resources */,
 				6D6953601CE99B550007970C /* Main.storyboard in Resources */,
+				6D6953721CE9BE1D0007970C /* HackeruRun.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,6 +15,12 @@ class ViewController: UIViewController{
     var locationManager = CLLocationManager()
     
     
+    
+    override func motionBegan(motion: UIEventSubtype, withEvent event: UIEvent?) {
+        if motion == .MotionShake{
+            print("Shaked")
+        }
+    }
 
 
     @IBAction func mapTypeChanged(sender: UISegmentedControl) {
@@ -37,11 +43,37 @@ class ViewController: UIViewController{
     
     func setupLocationManager(){
         locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.distanceFilter = 10.0
         locationManager.requestAlwaysAuthorization()
+        
+        //one time location request
+        //locationManager.requestLocation()
+        
+        //location updates:
+        locationManager.startUpdatingLocation()
+        
+        mapView.showsUserLocation = true
+        mapView.showsBuildings = true
     }
 }
 
 extension ViewController : CLLocationManagerDelegate{
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(locations)
+        
+        let coords = locations[0].coordinate
+        
+        let region = MKCoordinateRegionMakeWithDistance(coords, 100, 100)
+        
+        mapView.setRegion(region, animated: true)
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print(error)
+    }
+    
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedAlways{
             print("Yay")
